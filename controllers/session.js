@@ -26,15 +26,23 @@ async function createSession(req, res) {
         return res.status(400).send(result.error.message)
     }
 
-    const { idMovie, type, date, startHour, endHour } = req.body
+    const { idMovie, type, room, date, startHour, endHour } = req.body
     if (
-        await ifAlreadyCreatedSession(idMovie, type, date, startHour, endHour)
+        await ifAlreadyCreatedSession(
+            idMovie,
+            type,
+            room,
+            date,
+            startHour,
+            endHour
+        )
     ) {
         return res.status(400).send('Sessão ja foi criada para esse filme')
     }
     const newSession = new Session({
         idMovie,
         type,
+        room,
         date,
         startHour,
         endHour
