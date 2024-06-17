@@ -27,6 +27,9 @@ function createRefreshToken(id, username) {
 }
 
 function findRefreshCookie(req) {
+    if (!req.headers.cookie) {
+        return null
+    }
     const cookies = req.headers.cookie.split('; ')
     let jwt = null
     cookies.forEach(cookie => {
@@ -91,9 +94,7 @@ async function logout(req, res) {
 
 async function refresh(req, res) {
     const refreshCookie = findRefreshCookie(req)
-    const bearer = findBearerToken(req)
-
-    if (!refreshCookie || !bearer) {
+    if (!refreshCookie) {
         return res.sendStatus(204)
     }
 
