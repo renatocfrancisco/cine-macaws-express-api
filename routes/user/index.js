@@ -2,8 +2,9 @@ const express = require('express')
 const { createUser } = require('../../controllers/user')
 const router = express.Router()
 const limiter = require('../../middlewares/limiter')
+const jwt = require('../../middlewares/jwt')
 
-// router.use(auth)
+router.use(jwt)
 
 // router.get('/', getUser)
 // router.get('/:id', getOneUser)
