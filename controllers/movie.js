@@ -42,19 +42,36 @@ async function getMovies(req, res) {
         ...(rating && { rating })
     }
 
-    if (nowShowing === 'true') {
-        const hourFilter = { date: { $gte: new Date() } }
-        const movieIDS = await Session.aggregate([
-            { $match: { ...filter, ...hourFilter } },
-            { $group: { _id: '$idMovie' } }
-        ])
-        filter._id = { $in: movieIDS }
-    }
-
     try {
         const movies = await Movie.find(filter)
-        if (!movies) {
+        if (!Array.isArray(movies) || movies.length === 0) {
             return res.status(404).send('Nenhum filme encontrado')
+        }
+
+        if (nowShowing === 'true') {
+            const today = new Date()
+            const moviesWithSessionsPromises = movies.map(async movie => {
+                const sessions = await Session.find({
+                    idMovie: movie._id,
+                    date: { $gte: today }
+                })
+                return { ...movie.toObject(), sessions } // Convert Mongoose document to plain object
+            })
+
+            const moviesWithSessions = await Promise.all(
+                moviesWithSessionsPromises
+            )
+
+            // delete movies with no sessions
+            const moviesWithSessionsFiltered = moviesWithSessions.filter(
+                movie => movie.sessions.length > 0
+            )
+
+            // Send the response with movies and sessions included
+            return res.status(200).json(moviesWithSessionsFiltered)
+
+            // // Send the response with movies and sessions included
+            // return res.status(200).json(moviesWithSessions)
         }
         return res.status(200).send(movies)
     } catch (error) {
@@ -132,4 +149,25 @@ async function deleteMovie(req, res) {
     }
 }
 
-module.exports = { createMovie, getMovies, getMovie, modifyMovie, deleteMovie }
+async function getHighlightedMovies(_req, res) {
+    try {
+        const sessions = await Session.find({
+            date: { $gte: new Date() }
+        }).distinct('idMovie')
+        const movies = await Movie.find({ _id: { $in: sessions } }).select(
+            'id name image summary'
+        )
+        return res.status(200).send(movies)
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
+
+module.exports = {
+    createMovie,
+    getMovies,
+    getMovie,
+    modifyMovie,
+    deleteMovie,
+    getHighlightedMovies
+}
