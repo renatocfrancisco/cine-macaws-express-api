@@ -6,8 +6,11 @@ const {
     modifyMovie,
     deleteMovie
 } = require('../../controllers/movie')
+const jwt = require('../../middlewares/jwt')
 
 const router = express.Router()
+
+router.use(jwt)
 
 router.get('/', getMovies)
 router.get('/:id', getMovie)

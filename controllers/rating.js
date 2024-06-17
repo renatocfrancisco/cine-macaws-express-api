@@ -14,16 +14,36 @@ async function createRating(req, res) {
         idUser,
         idMovie: movie.id
     })
-    if (userAlreadyRated) {
-        return res.status(400).send('Voce já avaliou esse filme')
-    }
 
     rating = rating === 'true' ? true : false
+
+    if (userAlreadyRated) {
+        userAlreadyRated.rating = rating
+        await userAlreadyRated.save()
+        return res.status(200).send(userAlreadyRated)
+    }
 
     const newRating = new Rating({ idUser, idMovie: movie.id, rating })
     try {
         await newRating.save()
         return res.status(201).send(newRating)
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+}
+
+async function getRating(req, res) {
+    let { idMovie } = req.params
+    if (!idMovie) {
+        return res.status(400).send('ID inválido')
+    }
+
+    try {
+        const rating = await Rating.findOne({ idMovie, idUser: req.user.id.id })
+        if (!rating) {
+            return res.status(404).send('Nenhuma avaliação encontrada')
+        }
+        return res.status(200).send(rating.rating)
     } catch (error) {
         return res.status(500).send(error)
     }
@@ -57,4 +77,4 @@ async function getAverageRating(req, res) {
     }
 }
 
-module.exports = { createRating, getAverageRating }
+module.exports = { createRating, getAverageRating, getRating }

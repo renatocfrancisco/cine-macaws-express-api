@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { getExtraMovieInfo } = require('../axios/tmdb')
 const Movie = require('../models/Movie')
 const Session = require('../models/Session')
@@ -13,6 +12,12 @@ async function createMovie(req, res) {
 
     try {
         const { name, genre, rating } = req.body
+
+        const movieAlreadyExists = await Movie.findOne({ name })
+        if (movieAlreadyExists) {
+            return res.status(400).send('Filme já existe')
+        }
+
         const newMovie = new Movie({ name, genre, rating })
 
         const { summary, poster, image } = await getExtraMovieInfo(
@@ -84,6 +89,7 @@ async function modifyMovie(req, res) {
         return res.status(404).send('Filme não encontrado')
     }
 
+    // eslint-disable-next-line no-unused-vars
     const { _id, ...oldValues } = oldMovie._doc
     const { name, genre, rating } = req.body
     const modify = {

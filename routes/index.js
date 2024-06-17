@@ -7,7 +7,7 @@ const rating = require('./rating')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
     res.send('Cine Macaws API')
 })
 
