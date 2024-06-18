@@ -1,6 +1,10 @@
 const express = require('express')
 const limiter = require('../../middlewares/limiter')
-const { validGenres, validRatings, validSessionTypes } = require('./strings')
+const {
+    validGenres,
+    validRatings,
+    validSessionTypes
+} = require('../../validators/constant')
 
 const router = express.Router()
 

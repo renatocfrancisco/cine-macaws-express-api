@@ -1,22 +1,5 @@
 const Joi = require('joi')
-
-const validGenres = [
-    'Ação',
-    'Aventura',
-    'Animação',
-    'Comédia',
-    'Drama',
-    'Fantasia',
-    'Terror',
-    'Romance',
-    'Suspense',
-    'Faroeste',
-    'Musical',
-    'Documentário',
-    'Ficção Cientifica',
-    'Histórico'
-]
-const validRatings = ['L', '10', '12', '14', '16', '18']
+const { validGenres, validRatings } = require('./constant')
 
 const movieSchema = Joi.object({
     name: Joi.string().required().label('Nome'),

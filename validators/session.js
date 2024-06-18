@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const validSessionTypes = ['Dublado', 'Legendado', 'Nacional']
+const { validSessionTypes } = require('./constant')
 
 const sessionSchema = Joi.object().keys({
     idMovie: Joi.string().required().label('Id da Sessão'),
