@@ -8,8 +8,8 @@ const compression = require('compression')
 const routes = require('./routes')
 const db = require('./db/mongoose')
 
-const port = process.env.PORT | 3000
-const host = process.env.HOST | 'localhost'
+const port = process.env.PORT || 3000
+const host = process.env.HOST || 'localhost'
 
 const app = express()
 
