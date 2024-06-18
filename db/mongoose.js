@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+if (!process.env.MONGODB_URL) {
+    throw new Error('MONGODB_URL não configurado')
+}
+
 mongoose.connect(process.env.MONGODB_URL)
 
 const db = mongoose.connection
