@@ -2,7 +2,7 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/renatocfrancisco/cine-macaws-express-api)
 ![GitHub repo size](https://img.shields.io/github/repo-size/renatocfrancisco/cine-macaws-express-api)
-![GitHub License](https://img.shields.io/github/license/renatocfrancisco/cine-macaws-express-api)
+![GitHub License](https://img.shields.io/github/license/renatocfrancisco/cine-macaws-express-api?style=flat)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![PNPM](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=flat&logo=pnpm&logoColor=f69220)](https://pnpm.io/)
 
