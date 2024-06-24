@@ -1,11 +1,10 @@
 const { hash } = require('argon2')
 const userSchema = require('../validators/user')
 const User = require('../models/User')
-const { messages } = require('joi-translation-pt-br')
 
 async function createUser(req, res) {
     try {
-        const result = userSchema.validate(req.body, { messages })
+        const result = userSchema.validate(req.body)
         if (result.error) {
             return res.status(400).send(result.error.message)
         }
@@ -45,7 +44,7 @@ async function modifyUser(req, res) {
         ...(password && { password })
     }
 
-    const result = userSchema.validate(modify, { messages })
+    const result = userSchema.validate(modify)
 
     if (result.error) {
         return res.status(400).send(result.error.message)

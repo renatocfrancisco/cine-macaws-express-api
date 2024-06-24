@@ -1,6 +1,5 @@
 const sessionSchema = require('../validators/session')
 const Session = require('../models/Session')
-const { messages } = require('joi-translation-pt-br')
 
 async function ifAlreadyCreatedSession(
     idMovie,
@@ -21,7 +20,7 @@ async function ifAlreadyCreatedSession(
 }
 
 async function createSession(req, res) {
-    const result = sessionSchema.validate(req.body, { messages })
+    const result = sessionSchema.validate(req.body)
     if (result.error) {
         return res.status(400).send(result.error.message)
     }

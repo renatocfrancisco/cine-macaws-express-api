@@ -1,6 +1,5 @@
 const priceSchema = require('../validators/price')
 const Price = require('../models/Price')
-const { messages } = require('joi-translation-pt-br')
 
 async function getPrices(_req, res) {
     try {
@@ -15,7 +14,7 @@ async function getPrices(_req, res) {
 }
 
 async function createPrice(req, res) {
-    const result = priceSchema.validate(req.body, { messages })
+    const result = priceSchema.validate(req.body)
     if (result.error) {
         return res.status(400).send(result.error.message)
     }
@@ -56,7 +55,7 @@ async function modifyPrice(req, res) {
         ...(value && { value })
     }
 
-    const result = priceSchema.validate(modify, { messages })
+    const result = priceSchema.validate(modify)
     if (result.error) {
         return res.status(400).send(result.error.message)
     }

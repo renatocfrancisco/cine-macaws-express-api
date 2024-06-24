@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const { verify } = require('argon2')
-const { messages } = require('joi-translation-pt-br')
 const userSchema = require('../validators/user')
 const User = require('../models/User')
 
@@ -54,7 +53,7 @@ async function login(req, res) {
     }
 
     try {
-        const result = userSchema.validate(req.body, { messages })
+        const result = userSchema.validate(req.body)
         if (result.error) {
             return res.status(400).send(result.error.message)
         }

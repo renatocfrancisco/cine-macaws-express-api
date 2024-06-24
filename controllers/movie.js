@@ -2,10 +2,9 @@ const { getExtraMovieInfo } = require('../axios/tmdb')
 const Movie = require('../models/Movie')
 const Session = require('../models/Session')
 const movieSchema = require('../validators/movie')
-const { messages } = require('joi-translation-pt-br')
 
 async function createMovie(req, res) {
-    const result = movieSchema.validate(req.body, { messages })
+    const result = movieSchema.validate(req.body)
     if (result.error) {
         return res.status(400).send(result.error.message)
     }
@@ -116,7 +115,7 @@ async function modifyMovie(req, res) {
         ...(rating && { rating })
     }
 
-    const result = movieSchema.validate(modify, { messages })
+    const result = movieSchema.validate(modify)
     if (result.error) {
         return res.status(400).send(result.error.message)
     }
